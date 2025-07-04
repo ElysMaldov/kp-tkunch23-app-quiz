@@ -1,0 +1,3 @@
+# Jalanin Project
+
+pnpm dev
