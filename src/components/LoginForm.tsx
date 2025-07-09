@@ -2,39 +2,33 @@
 
 import type React from 'react'
 
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
-import { useState } from 'react'
-import { createUser } from '@/lib/actions'
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import { loginUser } from '@/lib/actions/login-user'
 import { useRouter } from 'next/navigation'
 
-export default function RegistrationForm() {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
-    fullName: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    agreeToTerms: false,
   })
 
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
 
-    await createUser(formData.email, formData.password, formData.fullName)
+    await loginUser(formData.email, formData.password)
 
     router.replace('/')
   }
 
-  const handleInputChange = (field: string, value: string | boolean) => {
+  const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -45,32 +39,13 @@ export default function RegistrationForm() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Sign In</CardTitle>
           <CardDescription className="text-center">
-            Enter your information to create your account
+            Enter your email and password to access your account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Fields */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2 col-span-2">
-                <Label htmlFor="fullName">First Name</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="fullName"
-                    type="text"
-                    placeholder="John"
-                    className="pl-10"
-                    value={formData.fullName}
-                    onChange={(e) => handleInputChange('fullName', e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -112,39 +87,23 @@ export default function RegistrationForm() {
               </div>
             </div>
 
-            {/* Terms and Conditions */}
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="terms"
-                checked={formData.agreeToTerms}
-                onCheckedChange={(checked) => handleInputChange('agreeToTerms', checked as boolean)}
-                required
-              />
-              <Label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                I agree to the{' '}
-                <a href="#" className="text-blue-600 hover:underline">
-                  Terms of Service
-                </a>{' '}
-                and{' '}
-                <a href="#" className="text-blue-600 hover:underline">
-                  Privacy Policy
-                </a>
-              </Label>
+            {/* Forgot Password Link */}
+            <div className="flex justify-end">
+              <a href="#" className="text-sm text-blue-600 hover:underline">
+                Forgot password?
+              </a>
             </div>
 
             {/* Submit Button */}
             <Button type="submit" className="w-full">
-              Create Account
+              Sign In
             </Button>
 
-            {/* Sign In Link */}
+            {/* Sign Up Link */}
             <div className="text-center text-sm">
-              Already have an account?{' '}
+              Don&apos;t have an account?{' '}
               <a href="#" className="text-blue-600 hover:underline font-medium">
-                Sign in
+                Sign up
               </a>
             </div>
           </form>
