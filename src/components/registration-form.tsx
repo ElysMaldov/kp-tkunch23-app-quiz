@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
 import { useState } from 'react'
+import { createUser } from '@/lib/actions'
 
 export default function RegistrationForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -20,10 +21,14 @@ export default function RegistrationForm() {
     agreeToTerms: false,
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission here
     console.log('Form submitted:', formData)
+
+    const user = await createUser(formData.email, formData.password, formData.fullName)
+
+    alert(user.email)
   }
 
   const handleInputChange = (field: string, value: string | boolean) => {
