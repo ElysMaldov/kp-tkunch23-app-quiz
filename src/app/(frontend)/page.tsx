@@ -1,17 +1,13 @@
 import SignOut from '@/components/SignOut'
-import config from '@/payload.config'
-import { headers as nextHeaders } from 'next/headers'
-import { getPayload } from 'payload'
+import { authorizeUser } from '@/lib/actions/authorize-user'
+import { redirect } from 'next/navigation'
 
 export default async function HomePage() {
-  const headers = await nextHeaders()
-  const payload = await getPayload({ config })
-
-  const result = await payload.auth({ headers, canSetHeaders: false })
+  const result = await authorizeUser()
 
   if (result.user) {
     return <SignOut user={result.user} />
+  } else {
+    redirect('/auth/login')
   }
-
-  return <p>Home</p>
 }
