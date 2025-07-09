@@ -75,6 +75,12 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11
     devDependencies:
+      '@eslint/eslintrc':
+        specifier: ^3.3.1
+        version: 3.3.1
+      '@next/eslint-plugin-next':
+        specifier: ^15.3.5
+        version: 15.3.5
       '@playwright/test':
         specifier: 1.50.0
         version: 1.50.0
@@ -99,6 +105,9 @@ importers:
       eslint-config-next:
         specifier: 15.3.0
         version: 15.3.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.7.3)
+      eslint-plugin-react-hooks:
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@9.30.1(jiti@2.4.2))
       jsdom:
         specifier: 26.1.0
         version: 26.1.0
@@ -1139,6 +1148,9 @@ packages:
   '@next/eslint-plugin-next@15.3.0':
     resolution: {integrity: sha512-511UUcpWw5GWTyKfzW58U2F/bYJyjLE9e3SlnGK/zSXq7RqLlqFO8B9bitJjumLpj317fycC96KZ2RZsjGNfBw==}
 
+  '@next/eslint-plugin-next@15.3.5':
+    resolution: {integrity: sha512-BZwWPGfp9po/rAnJcwUBaM+yT/+yTWIkWdyDwc74G9jcfTrNrmsHe+hXHljV066YNdVs8cxROxX5IgMQGX190w==}
+
   '@next/swc-darwin-arm64@15.3.2':
     resolution: {integrity: sha512-2DR6kY/OGcokbnCsjHpNeQblqCZ85/1j6njYSkzRdpLn5At7OkSdmk7WyAmB9G0k25+VgqVZ/u356OSoQZ3z0g==}
     engines: {node: '>= 10'}
@@ -1347,7 +1359,7 @@ packages:
   '@radix-ui/react-use-controllable-state@1.2.2':
     resolution: {integrity: sha512-BjasUjixPFdS+NKkypcyyN5Pmg83Olst0+c6vGov0diwTEo6mgdqVR6hxcEgFuh4QrAs7Rc+9KuGJ9TVCj0Zzg==}
     peerDependencies:
-      '@types/react': 19.1.2
+      '@types/react': '*'
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     peerDependenciesMeta:
       '@types/react':
@@ -6019,6 +6031,10 @@ snapshots:
   '@next/env@15.3.5': {}
 
   '@next/eslint-plugin-next@15.3.0':
+    dependencies:
+      fast-glob: 3.3.1
+
+  '@next/eslint-plugin-next@15.3.5':
     dependencies:
       fast-glob: 3.3.1
 
