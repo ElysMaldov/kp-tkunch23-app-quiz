@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     questions: Question;
+    'multiplechoice-questions': MultiplechoiceQuestion;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +80,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     questions: QuestionsSelect<false> | QuestionsSelect<true>;
+    'multiplechoice-questions': MultiplechoiceQuestionsSelect<false> | MultiplechoiceQuestionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -122,6 +124,7 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   fullName: string;
+  role: 'student' | 'teacher';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -171,6 +174,36 @@ export interface Question {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplechoice-questions".
+ */
+export interface MultiplechoiceQuestion {
+  id: string;
+  title: string;
+  question: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  options: {
+    text: string;
+    isCorrect: boolean;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -187,6 +220,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'questions';
         value: string | Question;
+      } | null)
+    | ({
+        relationTo: 'multiplechoice-questions';
+        value: string | MultiplechoiceQuestion;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -236,6 +273,7 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   fullName?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -277,6 +315,23 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface QuestionsSelect<T extends boolean = true> {
   title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplechoice-questions_select".
+ */
+export interface MultiplechoiceQuestionsSelect<T extends boolean = true> {
+  title?: T;
+  question?: T;
+  options?:
+    | T
+    | {
+        text?: T;
+        isCorrect?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
