@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     questions: Question;
     'multiplechoice-questions': MultiplechoiceQuestion;
+    'multiplechoice-answers': MultiplechoiceAnswer;
+    'multiplechoice-question-grades': MultiplechoiceQuestionGrade;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +83,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     questions: QuestionsSelect<false> | QuestionsSelect<true>;
     'multiplechoice-questions': MultiplechoiceQuestionsSelect<false> | MultiplechoiceQuestionsSelect<true>;
+    'multiplechoice-answers': MultiplechoiceAnswersSelect<false> | MultiplechoiceAnswersSelect<true>;
+    'multiplechoice-question-grades': MultiplechoiceQuestionGradesSelect<false> | MultiplechoiceQuestionGradesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -197,8 +201,36 @@ export interface MultiplechoiceQuestion {
   options: {
     text: string;
     isCorrect: boolean;
+    score: number;
     id?: string | null;
   }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplechoice-answers".
+ */
+export interface MultiplechoiceAnswer {
+  id: string;
+  student: string | User;
+  question: string | MultiplechoiceQuestion;
+  optionId: string;
+  isCorrect: boolean;
+  score: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplechoice-question-grades".
+ */
+export interface MultiplechoiceQuestionGrade {
+  id: string;
+  student: string | User;
+  question: string | MultiplechoiceQuestion;
+  answers: (string | MultiplechoiceAnswer)[];
+  totalScore: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -224,6 +256,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'multiplechoice-questions';
         value: string | MultiplechoiceQuestion;
+      } | null)
+    | ({
+        relationTo: 'multiplechoice-answers';
+        value: string | MultiplechoiceAnswer;
+      } | null)
+    | ({
+        relationTo: 'multiplechoice-question-grades';
+        value: string | MultiplechoiceQuestionGrade;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -330,8 +370,34 @@ export interface MultiplechoiceQuestionsSelect<T extends boolean = true> {
     | {
         text?: T;
         isCorrect?: T;
+        score?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplechoice-answers_select".
+ */
+export interface MultiplechoiceAnswersSelect<T extends boolean = true> {
+  student?: T;
+  question?: T;
+  optionId?: T;
+  isCorrect?: T;
+  score?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplechoice-question-grades_select".
+ */
+export interface MultiplechoiceQuestionGradesSelect<T extends boolean = true> {
+  student?: T;
+  question?: T;
+  answers?: T;
+  totalScore?: T;
   updatedAt?: T;
   createdAt?: T;
 }

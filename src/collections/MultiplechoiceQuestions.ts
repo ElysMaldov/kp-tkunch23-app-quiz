@@ -2,6 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 export const MultiplechoiceQuestions: CollectionConfig = {
   slug: 'multiplechoice-questions',
+  admin: {
+    useAsTitle: 'title',
+  },
   fields: [
     {
       name: 'title',
@@ -28,6 +31,12 @@ export const MultiplechoiceQuestions: CollectionConfig = {
           type: 'checkbox',
           required: true,
           defaultValue: false,
+        },
+        {
+          name: 'score',
+          type: 'number',
+          required: true,
+          defaultValue: 0,
         },
       ],
     },

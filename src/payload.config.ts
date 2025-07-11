@@ -11,6 +11,8 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Questions } from './collections/Questions'
 import { MultiplechoiceQuestions } from '@/collections/MultiplechoiceQuestions'
+import { MultiplechoiceAnswers } from '@/collections/MultiplechoiceAnswers'
+import { MultiplechoiceQuestionGrades } from '@/collections/MultiplechoiceQuestionGrade'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,7 +24,14 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Questions, MultiplechoiceQuestions],
+  collections: [
+    Users,
+    Media,
+    Questions,
+    MultiplechoiceQuestions,
+    MultiplechoiceAnswers,
+    MultiplechoiceQuestionGrades,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
