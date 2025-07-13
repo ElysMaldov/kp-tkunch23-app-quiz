@@ -1,5 +1,7 @@
 import config from '@payload-config'
 import { getPayload } from 'payload'
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import MultipleChoiceOptions from '@/components/MultipleChoiceOptions'
 
 export interface QuizDetailsPageProps {
   params: Promise<{ quizId: string }>
@@ -10,7 +12,17 @@ const QuizDetailsPage = async ({ params }: QuizDetailsPageProps) => {
 
   const quizData = await fetchQuizById(quizId)
 
-  return <p>{quizData?.title}</p>
+  if (!quizData) return <p>No quiz data found</p>
+
+  return (
+    <section className="container mx-auto flex flex-col gap-y-4">
+      <h1 className="text-2xl font-bold">{quizData.title}</h1>
+
+      <RichText data={quizData?.question} />
+
+      <MultipleChoiceOptions />
+    </section>
+  )
 }
 
 export default QuizDetailsPage
@@ -39,6 +51,8 @@ async function fetchQuizById(id: string) {
       collection: 'multiplechoice-questions',
       id,
     })
+
+    console.log(quizData)
 
     return quizData
   } catch (error) {
