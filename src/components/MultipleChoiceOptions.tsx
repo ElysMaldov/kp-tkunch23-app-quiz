@@ -3,24 +3,49 @@
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { saveUserAnswer } from '@/lib/actions/save-user-answer'
+import { MultiplechoiceQuestion } from '@/payload-types'
+import { useState } from 'react'
 
-export interface MultipleChoiceOptionsProps {}
+export interface MultipleChoiceOptionsProps {
+  answers: MultiplechoiceQuestion['options']
+  questionId: string
+}
 
-const MultipleChoiceOptions = ({}: MultipleChoiceOptionsProps) => {
+/* 
+1. Terima property untuk pilihan2 soal dan render radio berdasarkan jumlah pilihan itu
+2. Ketika user pilih jawaban dan klik submit, aku bisa tau jawaban yang mana (minimal console.log)
+*/
+
+const MultipleChoiceOptions = ({ answers, questionId }: MultipleChoiceOptionsProps) => {
+  const [chosenAnswerId, setChosenAnswerId] = useState('')
+
+  const radioItems = answers.map((answer) => {
+    if (!answer.id) return null
+
+    return (
+      <div className="flex items-center space-x-2" key={answer.id}>
+        <RadioGroupItem value={answer.id} id={answer.id} />
+        <Label htmlFor={answer.id}>{answer.text}</Label>
+      </div>
+    )
+  })
+
+  const onSubmitClick = async () => {
+    const chosenAnswerData = answers.find((answer) => {
+      return answer.id === chosenAnswerId
+    })
+
+    if (chosenAnswerData) {
+      await saveUserAnswer(chosenAnswerData, questionId)
+    }
+  }
+
   return (
     <section className="flex flex-col gap-y-4">
-      <RadioGroup defaultValue="option-one">
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="option-one" id="option-one" />
-          <Label htmlFor="option-one">Option One</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="option-two" id="option-two" />
-          <Label htmlFor="option-two">Option Two</Label>
-        </div>
-      </RadioGroup>
+      <RadioGroup onValueChange={(val) => setChosenAnswerId(val)}>{radioItems}</RadioGroup>
 
-      <Button>Submit</Button>
+      <Button onClick={onSubmitClick}>Submit</Button>
     </section>
   )
 }

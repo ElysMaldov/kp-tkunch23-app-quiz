@@ -20,7 +20,7 @@ const QuizDetailsPage = async ({ params }: QuizDetailsPageProps) => {
 
       <RichText data={quizData?.question} />
 
-      <MultipleChoiceOptions />
+      <MultipleChoiceOptions answers={quizData.options} questionId={quizId} />
     </section>
   )
 }
