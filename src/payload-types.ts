@@ -77,7 +77,11 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'multiplechoice-question-grades': {
+      answers: 'multiplechoice-answers';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -215,6 +219,7 @@ export interface MultiplechoiceAnswer {
   id: string;
   student: string | User;
   question: string | MultiplechoiceQuestion;
+  grade?: (string | null) | MultiplechoiceQuestionGrade;
   optionId: string;
   isCorrect: boolean;
   score: number;
@@ -229,8 +234,12 @@ export interface MultiplechoiceQuestionGrade {
   id: string;
   student: string | User;
   question: string | MultiplechoiceQuestion;
-  answers: (string | MultiplechoiceAnswer)[];
-  totalScore: number;
+  answers?: {
+    docs?: (string | MultiplechoiceAnswer)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  totalScore?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -383,6 +392,7 @@ export interface MultiplechoiceQuestionsSelect<T extends boolean = true> {
 export interface MultiplechoiceAnswersSelect<T extends boolean = true> {
   student?: T;
   question?: T;
+  grade?: T;
   optionId?: T;
   isCorrect?: T;
   score?: T;

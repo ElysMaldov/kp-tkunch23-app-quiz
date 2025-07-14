@@ -58,19 +58,19 @@ export const MultiplechoiceQuestionGrades: CollectionConfig = {
 
     {
       name: 'answers',
-      type: 'relationship',
-      relationTo: 'multiplechoice-answers',
-      required: true,
-      hasMany: true,
+      type: 'join',
+      collection: 'multiplechoice-answers',
+      on: 'grade',
+      // required: true,
     },
 
     {
       name: 'totalScore',
       type: 'number',
-      required: true,
+      // required: true,
       defaultValue: 0,
       hooks: {
-        afterRead: [calculateTotalScore],
+        // afterRead: [calculateTotalScore],
       },
       virtual: true,
       // hooks: {
