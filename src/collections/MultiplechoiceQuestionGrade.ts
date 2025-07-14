@@ -1,6 +1,7 @@
 import { MultiplechoiceQuestionGrade } from '@/payload-types'
 import type { CollectionConfig, FieldHook } from 'payload'
 
+// http://localhost:3000/quiz/686f404dc8136809e2673dd6/results
 const calculateTotalScore: FieldHook<
   MultiplechoiceQuestionGrade,
   number,

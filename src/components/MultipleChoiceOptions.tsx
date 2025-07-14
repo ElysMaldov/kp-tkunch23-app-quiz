@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { saveUserAnswer } from '@/lib/actions/save-user-answer'
 import { MultiplechoiceQuestion } from '@/payload-types'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export interface MultipleChoiceOptionsProps {
@@ -31,6 +32,8 @@ const MultipleChoiceOptions = ({ answers, questionId }: MultipleChoiceOptionsPro
     )
   })
 
+  const router = useRouter()
+
   const onSubmitClick = async () => {
     const chosenAnswerData = answers.find((answer) => {
       return answer.id === chosenAnswerId
@@ -38,6 +41,8 @@ const MultipleChoiceOptions = ({ answers, questionId }: MultipleChoiceOptionsPro
 
     if (chosenAnswerData) {
       await saveUserAnswer(chosenAnswerData, questionId)
+
+      router.replace(`/quiz/${questionId}/results`)
     }
   }
 
