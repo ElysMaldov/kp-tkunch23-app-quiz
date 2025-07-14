@@ -6,6 +6,9 @@ const calculateTotalScore: FieldHook<
   number,
   MultiplechoiceQuestionGrade
 > = async ({ data, req: { payload } }) => {
+  console.log({
+    data,
+  })
   if (data?.answers) {
     let totalScore = 0
 
@@ -13,7 +16,7 @@ const calculateTotalScore: FieldHook<
       collection: 'multiplechoice-answers',
       where: {
         id: {
-          in: data.answers,
+          in: data.answers.docs,
         },
       },
       select: {
@@ -70,7 +73,7 @@ export const MultiplechoiceQuestionGrades: CollectionConfig = {
       // required: true,
       defaultValue: 0,
       hooks: {
-        // afterRead: [calculateTotalScore],
+        afterRead: [calculateTotalScore],
       },
       virtual: true,
       // hooks: {
